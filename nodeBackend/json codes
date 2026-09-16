@@ -1,0 +1,29 @@
+1xx Informational
+100 Continue: The server got the first part of the request.
+102 Processing: The server is working on the request.
+
+2xx Success Codes
+200 OK: The request worked.
+201 Created: A new item was made.
+202 Accepted: The request is processing.
+204 No Content: The request worked, but there is no data to send back.
+
+3xx Redirection Codes
+301 Moved Permanently: The page has a new address for good.
+302 Found: The page is at a new address for now.
+304 Not Modified: The cached version is still good to use.
+
+4xx Client Error Codes
+400 Bad Request: The server could not understand the request.
+401 Unauthorized: You need to log in first.
+403 Forbidden: You do not have permission to view this.
+404 Not Found: The page or item does not exist.
+409 Conflict: The item already exists or clashes.
+422 Unprocessable Entity: Valid JSON, but bad business rules.
+429 Too Many Requests: You are sending too many requests too fast.
+
+5xx Server Error Code
+500 Internal Server Error: Something went wrong on the server.
+502 Bad Gateway: Bad response from an upstream server.
+503 Service Unavailable: Server is down or busy.
+504 Gateway Timeout: The upstream server took too long.
