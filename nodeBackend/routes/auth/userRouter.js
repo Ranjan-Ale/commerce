@@ -8,20 +8,30 @@ import { authenticate } from "../middleware/authMiddleware.js"
 router.get("/u", async (req,res)=>{
     const user = await prisma.users.findUnique({
         where:{
-            email: "ram@.com"
+            email: "ram@gmail.com"
         }
     })
-    res.send(user)
+    return res.send(user)
 })
 
 router.get("/", async (req, res)=>{
-    const users = await prisma.users.findMany();
+    try {
+        const users = await prisma.users.findMany();
    
-    res.json(users);
+        res.json(users);
+    } catch (e) {
+        console.error(e);
+        res.json({
+            success: false,
+            message: "Something went wrong!"
+        })
+    }
 })
 
 router.post("/register", register);
+
 router.post("/login", login);
+
 router.get("/addtocart", authenticate, (req,res)=>{
     res.json({
         message: "welcome to dashboard",

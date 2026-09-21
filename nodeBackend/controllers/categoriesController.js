@@ -1,57 +1,131 @@
-import { prisma } from "../config/database.js"
+import { prisma } from "../config/database.js";
 
-async function add(req, res){
-    try{
-        const {title, slug, description} = req.body
-        const category = await prisma.product_variants.findMany({
-            where:{
-                title: title
+
+// CREATE CATEGORY
+async function createCategory(req, res) {
+    try {
+        const { title, slug, description } = req.body;
+
+        const category = await prisma.categories.create({
+            data: {
+                title,
+                slug,
+                description
             }
-        })
-       
-        if (category.length > 0){
-            res.status(409).json({
-                message: "already exists"
-            })
-        }
-        else{
-            const newCategory = await prisma.categories.create({
-                data:{
-                   title,
-                   slug, 
-                   description
-                }
-            })
-            res.status(201).json({
-                created: newCategory
-            })
-        }
-    }
-    catch(error){
-        return res.status(500).json({
-            message: "internal server error"
-        })
+        });
+
+        res.status(201).json({
+            message: "Category created",
+            category: {
+                ...category,
+                id: category.id.toString()
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Could not create category"
+        });
     }
 }
 
-async function show(req,res){
-    try{
-        const categories = await prisma.categories.findMany()
-        if (categories.length === 0){
-            res.status(201).json({
-                "message": "Categories not available"
-            })
-        }
-        else{
-            res.status(200).json({
-                "message": categories
-            })
-        }
-    }
-    catch(error){
+
+// GET ALL CATEGORIES
+async function getCategories(req, res) {
+    try {
+        const categories = await prisma.categories.findMany();
+
+        const result = categories.map(category => ({
+            ...category,
+            id: category.id.toString()
+        }));
+
+        res.json(result);
+
+    } catch (error) {
+        console.log(error);
+
         res.status(500).json({
-            "message": "internal server error"
-        })
+            message: "Could not get categories"
+        });
     }
 }
-export {add, show}
+
+
+// GET ONE CATEGORY
+async function getCategory(req, res) {
+    try {
+        const id = BigInt(req.params.id);
+
+        const category = await prisma.categories.findUnique({
+            where: {
+                id: id
+            }
+        });
+
+        if (!category) {
+            return res.status(404).json({
+                message: "Category not found"
+            });
+        }
+
+        res.json({
+            ...category,
+            id: category.id.toString()
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Could not get category"
+        });
+    }
+}
+
+
+// DELETE CATEGORY
+async function deleteCategory(req, res) {
+    try {
+        const id = BigInt(req.params.id);
+
+        const category = await prisma.categories.findUnique({
+            where: {
+                id: id
+            }
+        });
+
+        if (!category) {
+            return res.status(404).json({
+                message: "Category not found"
+            });
+        }
+
+        await prisma.categories.delete({
+            where: {
+                id: id
+            }
+        });
+
+        res.json({
+            message: "Category deleted"
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            message: "Could not delete category"
+        });
+    }
+}
+
+
+export {
+    createCategory,
+    getCategories,
+    getCategory,
+    deleteCategory
+};
