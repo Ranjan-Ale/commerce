@@ -4,11 +4,10 @@ BigInt.prototype.toJSON = function () {
 
 import express from "express";
 import cookieParser from "cookie-parser"
-import { userRouter} from "./routes/userRouter.js" ;
-import {productRouter } from "./routes/productRouter.js"
+import { userRouter} from "./routes/users/userRouter.js" ;
+import {productRouter } from "./routes/product/productRouter.js"
 import { productVariantRouter } from "./routes/product/productVariantRouter.js";
-import {cartRouter} from "./routes/cart/cartRouter.js"
-import { paymentRouter } from "./routes/paymentRouter.js";
+import { cartRouter } from "./routes/cart/cartRouter.js"
 import { cartItemRouter } from "./routes/cart/cartItemRouter.js";
 import { productImageRouter } from "./routes/product/productImageRouter.js";
 import { productReviewRouter } from "./routes/reviews/productReviewRoutes.js";
@@ -26,7 +25,6 @@ app.use("/product-images", productImageRouter)
 app.use("/cart",cartRouter)
 app.use("/cart-items", cartItemRouter)
 app.use("/product-reviews", productReviewRouter)
-app.use("/payment",paymentRouter)
 
 
 app.listen(3000,()=>{

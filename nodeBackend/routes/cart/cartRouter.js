@@ -23,4 +23,4 @@ router.get("/:id", getCart);
 router.delete("/:id", deleteCart);
 
 
-export default router;
+export {router as cartRouter};
