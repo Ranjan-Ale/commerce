@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Product Image</title>
+</head>
+
+<body>
+
+    <h1>Upload Product Image</h1>
+
+    <form
+        action="/product-images/images"
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        <label>Product ID:</label>
+        <input type="number" name="product_id" required>
+
+        <br><br>
+
+        <label>Variant ID:</label>
+        <input type="number" name="variant_id">
+
+        <br><br>
+
+        <label>Image:</label>
+        <input type="file" name="image" required>
+
+        <br><br>
+
+        <button type="submit">
+            Upload Image
+        </button>
+
+    </form>
+
+</body>
+</html>

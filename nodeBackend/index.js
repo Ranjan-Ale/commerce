@@ -9,7 +9,7 @@ import {productRouter } from "./routes/product/productRouter.js"
 import { productVariantRouter } from "./routes/product/productVariantRouter.js";
 import { cartRouter } from "./routes/cart/cartRouter.js"
 import { cartItemRouter } from "./routes/cart/cartItemRouter.js";
-import { productImageRouter } from "./routes/product/productImageRouter.js";
+import { productImageRouter } from "./routes/product_images/productImagesRouter.js";
 import { productReviewRouter } from "./routes/reviews/productReviewRoutes.js";
 
 
@@ -17,6 +17,7 @@ import { productReviewRouter } from "./routes/reviews/productReviewRoutes.js";
 const app = express()
 app.use(express.json())
 app.use(cookieParser())
+app.use(express.static("public"))
 
 app.use("/users", userRouter)
 app.use("/products", productRouter)
