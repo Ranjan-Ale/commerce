@@ -1,14 +1,12 @@
 import express from "express";
-import upload from "../../middleware/upload.js";
-import { uploadProductImage } from "../../controllers/productImageController.js";
+import {
+    uploadProductImage,
+    getProductImages
+} from "../../controllers/productImageController.js";
 
 const router = express.Router();
 
+router.get("/", getProductImages);
+router.post("/",uploadProductImage)
 
-router.post(
-    "/images",
-    upload.single("image"),
-    uploadProductImage
-);
-
-export  {router as productImageRouter};
+export {router as productImageRouter} ;
