@@ -1,151 +1,66 @@
 import { prisma } from "../config/database.js";
 
-
-// CREATE IMAGE
-async function createProductImage(req, res) {
+export const uploadProductImage = async (req, res) => {
     try {
-        const {
-            product_id,
-            variant_id,
-            filename,
-            size,
-            upload_path
-        } = req.body;
+        if (!req.file) {
+            return res.status(400).json({
+                message: "No image uploaded"
+            });
+        }
 
-        const image = await prisma.product_images.create({
+        const { product_id, variant_id } = req.body;
+
+        if (!product_id) {
+            return res.status(400).json({
+                message: "product_id is required"
+            });
+        }
+
+        const productImage = await prisma.product_images.create({
             data: {
                 product_id: BigInt(product_id),
                 variant_id: variant_id ? BigInt(variant_id) : null,
-                filename,
-                size,
-                upload_path
+                filename: req.file.filename,
+                size: req.file.size.toString(),
+                upload_path: `/uploads/${req.file.filename}`
             }
         });
 
-        res.status(201).json({
-            message: "Product image created",
-            image: {
-                ...image,
-                id: image.id.toString(),
-                product_id: image.product_id.toString(),
-                variant_id: image.variant_id
-                    ? image.variant_id.toString()
-                    : null
-            }
+        return res.status(201).json({
+            message: "Product image uploaded successfully",
+            image: productImage
         });
 
     } catch (error) {
-        console.log(error);
+        console.error("Product image upload error:", error);
 
-        res.status(500).json({
-            message: "Could not create product image"
+        return res.status(500).json({
+            message: "Failed to upload product image",
+            error: error.message
         });
     }
-}
+};
 
 
-// GET ALL IMAGES
-async function getProductImages(req, res) {
+export const getProductImages = async (req, res) => {
     try {
-        const images = await prisma.product_images.findMany();
-
-        const result = images.map(image => ({
-            ...image,
-            id: image.id.toString(),
-            product_id: image.product_id.toString(),
-            variant_id: image.variant_id
-                ? image.variant_id.toString()
-                : null
-        }));
-
-        res.json(result);
-
-    } catch (error) {
-        console.log(error);
-
-        res.status(500).json({
-            message: "Could not get product images"
-        });
-    }
-}
-
-
-// GET ONE IMAGE
-async function getProductImage(req, res) {
-    try {
-        const id = BigInt(req.params.id);
-
-        const image = await prisma.product_images.findUnique({
-            where: {
-                id: id
+        const productImages = await prisma.product_images.findMany({
+            orderBy: {
+                id: "desc"
             }
         });
 
-        if (!image) {
-            return res.status(404).json({
-                message: "Product image not found"
-            });
-        }
-
-        res.json({
-            ...image,
-            id: image.id.toString(),
-            product_id: image.product_id.toString(),
-            variant_id: image.variant_id
-                ? image.variant_id.toString()
-                : null
+        return res.status(200).json({
+            message: "Product images fetched successfully",
+            images: productImages
         });
 
     } catch (error) {
-        console.log(error);
+        console.error("Get product images error:", error);
 
-        res.status(500).json({
-            message: "Could not get product image"
+        return res.status(500).json({
+            message: "Failed to fetch product images",
+            error: error.message
         });
     }
-}
-
-
-// DELETE IMAGE
-async function deleteProductImage(req, res) {
-    try {
-        const id = BigInt(req.params.id);
-
-        const image = await prisma.product_images.findUnique({
-            where: {
-                id: id
-            }
-        });
-
-        if (!image) {
-            return res.status(404).json({
-                message: "Product image not found"
-            });
-        }
-
-        await prisma.product_images.delete({
-            where: {
-                id: id
-            }
-        });
-
-        res.json({
-            message: "Product image deleted"
-        });
-
-    } catch (error) {
-        console.log(error);
-
-        res.status(500).json({
-            message: "Could not delete product image"
-        });
-    }
-}
-
-
-export {
-    createProductImage,
-    getProductImages,
-    getProductImage,
-    deleteProductImage
 };

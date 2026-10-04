@@ -135,7 +135,7 @@ async function deleteCartItem(req, res) {
 
 export {
     createCartItem,
-    getCartItems,
     getCartItem,
+    getCartItems,
     deleteCartItem
-};
+}

@@ -4,19 +4,26 @@ BigInt.prototype.toJSON = function () {
 
 import express from "express";
 import cookieParser from "cookie-parser"
+import cors from "cors";
 import { userRouter} from "./routes/users/userRouter.js" ;
 import {productRouter } from "./routes/product/productRouter.js"
 import { productVariantRouter } from "./routes/product/productVariantRouter.js";
 import { cartRouter } from "./routes/cart/cartRouter.js"
 import { cartItemRouter } from "./routes/cart/cartItemRouter.js";
-import { productImageRouter } from "./routes/product/productImageRouter.js";
+import { productImageRouter } from "./routes/product_images/productImagesRouter.js";
 import { productReviewRouter } from "./routes/reviews/productReviewRoutes.js";
-
+import { orderRouter } from "./routes/orders/orderRouter.js";
+import { categoriesRouter } from "./routes/categories/categoriesRouter.js";
 
 
 const app = express()
 app.use(express.json())
+app.use(cors({
+    origin: "http://localhost:5173"
+}));
 app.use(cookieParser())
+app.use(express.static("public"))
+app.use("/uploads",express.static("uploads"))
 
 app.use("/users", userRouter)
 app.use("/products", productRouter)
@@ -25,6 +32,8 @@ app.use("/product-images", productImageRouter)
 app.use("/cart",cartRouter)
 app.use("/cart-items", cartItemRouter)
 app.use("/product-reviews", productReviewRouter)
+app.use("/orders", orderRouter)
+app.use("/categories",categoriesRouter)
 
 
 app.listen(3000,()=>{
