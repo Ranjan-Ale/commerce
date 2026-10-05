@@ -5,6 +5,8 @@ BigInt.prototype.toJSON = function () {
 import express from "express";
 import cookieParser from "cookie-parser"
 import cors from "cors"
+import path from "path"
+import { fileURLToPath } from "url";
 import { userRouter} from "./routes/users/userRouter.js" ;
 import {productRouter } from "./routes/product/productRouter.js"
 import { productVariantRouter } from "./routes/product/productVariantRouter.js";
@@ -21,7 +23,9 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.static("public"))
-app.use("/uploads", express.static("uploads"))
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(cors({
   origin:"http://localhost:5173"
