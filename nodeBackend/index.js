@@ -12,7 +12,7 @@ import {productRouter } from "./routes/product/productRouter.js"
 import { productVariantRouter } from "./routes/product/productVariantRouter.js";
 import { cartRouter } from "./routes/cart/cartRouter.js"
 import { cartItemRouter } from "./routes/cart/cartItemRouter.js";
-import { productImageRouter } from "./routes/product_images/productImagesRouter.js";
+import { productImagesRouter } from "./routes/product_images/productImagesRouter.js";
 import { productReviewRouter } from "./routes/reviews/productReviewRoutes.js";
 import { orderRouter } from "./routes/orders/orderRouter.js";
 import { categoriesRouter } from "./routes/categories/categoriesRouter.js";
@@ -34,7 +34,7 @@ app.use(cors({
 app.use("/users", userRouter)
 app.use("/products", productRouter)
 app.use("/product-variants", productVariantRouter)
-app.use("/product-images", productImageRouter)
+app.use("/product-images", productImagesRouter)
 app.use("/cart",cartRouter)
 app.use("/cart-items", cartItemRouter)
 app.use("/product-reviews", productReviewRouter)

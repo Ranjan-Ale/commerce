@@ -14,7 +14,7 @@ router.post("/", createOrder);
 
 router.get("/", getOrders);
 
-router.patch("/:id/update", updateOrder);
+router.put("/:id", updateOrder);
 
 router.get("/:id", getOrder);
 

@@ -126,10 +126,49 @@ async function deleteProduct(req, res) {
     }
 }
 
+async function updateProduct(req, res){
+	try {
+		const id = BigInt(req.params.id);
+
+		const {
+			name,
+			slug,
+			description,
+			category_id
+		} = req.body;
+
+		const product = await prisma.products.update({
+			where: {
+				id: id
+			},
+			data: {
+				name,
+				slug,
+				description,
+				category_id: BigInt(category_id)
+			}
+		});
+
+		res.status(200).json({
+			message: "Product updated successfully",
+			product
+		});
+
+	} catch (error) {
+		console.error("Update product error:", error);
+
+		res.status(500).json({
+			message: "Failed to update product",
+			error: error.message
+		});
+	}
+};
+
 
 export {
     createProduct,
     getProducts,
     getProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 };

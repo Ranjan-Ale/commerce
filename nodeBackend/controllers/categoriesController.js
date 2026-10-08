@@ -122,10 +122,48 @@ async function deleteCategory(req, res) {
     }
 }
 
+async function updateCategory(req, res){
+	try {
+		const { id } = req.params;
+		const { title, slug, description } = req.body;
+
+		if (!title || !slug) {
+			return res.status(400).json({
+				message: "Title and slug are required"
+			});
+		}
+
+		const category = await prisma.categories.update({
+			where: {
+				id: BigInt(id)
+			},
+			data: {
+				title,
+				slug,
+				description
+			}
+		});
+
+		return res.status(200).json({
+			message: "Category updated successfully",
+			category
+		});
+
+	} catch (error) {
+		console.error(error);
+
+		return res.status(500).json({
+			message: "Failed to update category",
+			error: error.message
+		});
+	}
+};
+
 
 export {
     createCategory,
     getCategories,
     getCategory,
-    deleteCategory
+    deleteCategory, 
+    updateCategory
 };

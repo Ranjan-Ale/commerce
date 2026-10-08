@@ -111,48 +111,43 @@ export const updateOrder = async (req, res) => {
             cancel_reason
         } = req.body;
 
-        const order = await prisma.orders.update({
+        // Check if order exists
+        const existingOrder = await prisma.orders.findUnique({
+            where: {
+                id: BigInt(id)
+            }
+        });
+
+        if (!existingOrder) {
+            return res.status(404).json({
+                message: "Order not found"
+            });
+        }
+
+        // Update order
+        const updatedOrder = await prisma.orders.update({
             where: {
                 id: BigInt(id)
             },
             data: {
-                ...(user_id !== undefined && {
-                    user_id: BigInt(user_id)
-                }),
-
-                ...(cart_id !== undefined && {
-                    cart_id: BigInt(cart_id)
-                }),
-
-                ...(amount !== undefined && {
-                    amount
-                }),
-
-                ...(order_status !== undefined && {
-                    order_status
-                }),
-
-                ...(remarks !== undefined && {
-                    remarks
-                }),
-
-                ...(cancel_reason !== undefined && {
-                    cancel_reason
-                }),
-
-                updated_at: new Date()
+                user_id: BigInt(user_id),
+                cart_id: BigInt(cart_id),
+                amount: amount,
+                order_status: order_status,
+                remarks: remarks || null,
+                cancel_reason: cancel_reason || null
             }
         });
 
-        res.status(200).json({
+        return res.status(200).json({
             message: "Order updated successfully",
-            order
+            order: updatedOrder
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("Error updating order:", error);
 
-        res.status(500).json({
+        return res.status(500).json({
             message: "Failed to update order",
             error: error.message
         });

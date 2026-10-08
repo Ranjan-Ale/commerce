@@ -1,12 +1,32 @@
 import express from "express";
+import upload from "../../middleware/upload.js";
+
 import {
-    uploadProductImage,
-    getProductImages
+	createProductImage,
+	getProductImages,
+	getProductImageById,
+	updateProductImage,
+	deleteProductImage,
 } from "../../controllers/productImageController.js";
 
 const router = express.Router();
 
-router.get("/", getProductImages);
-router.post("/",uploadProductImage)
+router.post(
+	"/",
+	upload.single("image"),
+	createProductImage
+);
 
-export {router as productImageRouter} ;
+router.get("/", getProductImages);
+
+router.get("/:id", getProductImageById);
+
+router.put(
+	"/:id",
+	upload.single("image"),
+	updateProductImage
+);
+
+router.delete("/:id", deleteProductImage);
+
+export {router as productImagesRouter};
