@@ -1,13 +1,19 @@
 import NewsPost from "../../components/news/news_post";
 import NewsAside from "../../components/news/news_aside";
+import Header from "../../components/header";
+import Footer from "../../components/footer";
 
 
 function News(){
 
     return(
         <>
+        <div className="flex flex-col justify-center items-center">
+        <div className="w-[90%]">
+          {/* header */}
+          <Header />
 
-      <div class="w-[90%]">
+                <div class="w-[90%]">
          {/* <!--Main Container--> */}
 
 
@@ -149,6 +155,13 @@ function News(){
 
 
         </div>
+
+          <Footer />
+
+        </div>
+      </div>
+
+
 
       </>
     )

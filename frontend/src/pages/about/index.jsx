@@ -1,9 +1,15 @@
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+
 function About(){
     return (
         <>
+        <div className="flex flex-col justify-center items-center">
+        <div className="w-[90%]">
+          {/* header */}
+          <Header />
 
-  
-    <section class="max-w-7xl mx-auto px-6 py-16">
+              <section class="max-w-7xl mx-auto px-6 py-16">
         <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
         <div class="max-w-3xl">
             <p class="text-slate-500 mb-4">Our Mission to Make Kids Feel Comfortable and Confident</p>
@@ -186,6 +192,16 @@ function About(){
     
         </div>
     </section>
+
+    
+          <Footer />
+
+        </div>
+      </div>
+
+    
+  
+
 
     
      </>

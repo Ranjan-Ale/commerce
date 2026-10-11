@@ -1,4 +1,5 @@
 import express from "express"
+import { authenticate } from "../../middleware/authMiddleware.js"
 
 import {
      createCategory,
@@ -10,10 +11,10 @@ import {
 
 const router = express.Router()
 
-router.post("/", createCategory)
+router.post("/",authenticate, createCategory)
 router.get("/", getCategories)
 router.delete("/:id", deleteCategory)
-router.get("/:id", getCategory)
-router.put("/:id", updateCategory)
+router.get("/:id",authenticate, getCategory)
+router.put("/:id",authenticate, updateCategory)
 
 export { router as categoriesRouter }

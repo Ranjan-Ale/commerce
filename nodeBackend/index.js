@@ -28,7 +28,8 @@ const __dirname = path.dirname(__filename);
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use(cors({
-  origin:"http://localhost:5173"
+  origin:"http://localhost:5173",
+  credentials: true
 }))
 
 app.use("/users", userRouter)

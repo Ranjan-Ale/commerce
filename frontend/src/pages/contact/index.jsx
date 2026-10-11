@@ -1,7 +1,17 @@
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+
+
 function Contact() {
 	return (
 		<>
-		<section class="max-w-7xl mx-auto px-6 py-16">
+
+    <div className="flex flex-col justify-center items-center">
+        <div className="w-[90%]">
+          {/* header */}
+          <Header />
+
+          		<section class="max-w-7xl mx-auto px-6 py-16">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
  
       {/* <!-- LEFT: image + contact info --> */}
@@ -221,6 +231,13 @@ function Contact() {
           </div>
         </div>
       </section>
+
+          <Footer />
+
+        </div>
+      </div>
+
+
 		</>
 	)
 }
